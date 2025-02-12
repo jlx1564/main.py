@@ -14,7 +14,9 @@ TIMEPAD_URL = "https://afisha.timepad.ru/saint-petersburg/search?price=free"
 
 # Инициализация бота
 bot = Bot(token=API_TOKEN)
-dp = Dispatcher(bot)
+dp = Dispatcher()
+dp["bot"] = bot
+
 scheduler = AsyncIOScheduler()
 
 # Логирование
