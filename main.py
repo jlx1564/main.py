@@ -2,7 +2,7 @@ import requests
 import logging
 import asyncio
 from bs4 import BeautifulSoup
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher
 from aiogram.types import Message
 from aiogram.fsm.storage.memory import MemoryStorage
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
@@ -67,4 +67,9 @@ async def main():
     scheduler.start()
 
     # Запуск бота
-    await bot.delete_webhook(drop_pending_updates=True)  # Удаление старых обнов
+    await bot.delete_webhook(drop_pending_updates=True)  # Удаление старых обновлений
+    await dp.start_polling(bot)  # ✅ Aiogram 3.x требует передавать bot в start_polling
+
+
+if __name__ == "__main__":
+    asyncio.run(main())
