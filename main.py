@@ -16,11 +16,12 @@ TIMEPAD_URL = "https://afisha.timepad.ru/saint-petersburg/search?price=free"
 
 # Инициализация бота
 bot = Bot(token=API_TOKEN)
-dp = Dispatcher(storage=MemoryStorage())  # Теперь без аргумента "bot"
+dp = Dispatcher(storage=MemoryStorage())  # ✅ Теперь без аргумента "bot"
 scheduler = AsyncIOScheduler()
 
 # Логирование
 logging.basicConfig(level=logging.INFO)
+
 
 async def fetch_events():
     """Функция парсинга бесплатных событий с Timepad."""
@@ -48,6 +49,7 @@ async def fetch_events():
 
     return events
 
+
 async def post_events():
     """Функция для отправки событий в Telegram-канал."""
     events = await fetch_events()
@@ -58,14 +60,11 @@ async def post_events():
         except Exception as e:
             logging.error(f"Ошибка при отправке: {e}")
 
+
 async def main():
     """Основная функция запуска бота и расписания обновлений."""
     scheduler.add_job(post_events, "interval", hours=1)  # Обновлять каждый час
     scheduler.start()
 
     # Запуск бота
-    await bot.delete_webhook(drop_pending_updates=True)  # Удаление старых обновлений
-    await dp.start_polling(bot)  # Aiogram 3.x требует передавать bot в start_polling
-
-if __name__ == "__main__":
-    asyncio.run(main())
+    await bot.delete_webhook(drop_pending_updates=True)  # Удаление старых обнов
